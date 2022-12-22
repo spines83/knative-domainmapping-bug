@@ -41,7 +41,7 @@ After the build has completed and the container is pushed to docker hub, you can
 Apply the configuration using `kubectl`:
 
 ```bash
-kubectl apply -f service.yaml
+kubectl apply -f deploy/service.yaml
 ```
 
 
@@ -61,27 +61,27 @@ helloworld-go       https://helloworld-go.default.<DOMAIN>
 
 ### Enable a second endpoint through Domain Mapping
 
-You'll need to provide a kubernetes tls certificate in order for the Domain Mapping to create a https endpoint. Make sure you update the domain in the various YAMLs before applying them. 
+You'll need to provide a kubernetes tls certificate in order for the Domain Mapping to create a https endpoint. Make sure you update the domain in the appropriate yamls before applying them. 
 
 ```bash
-kubectl apply -f domainmapping.yaml
+kubectl apply -f deploy/domainmapping.yaml
 
 # If you have cert manager installed
-kubectl apply -f certificate.yaml
+kubectl apply -f deploy/certificate.yaml
 
 # Otherwise 
-kubectl create secret tls hello-world-alt-cert .....
+kubectl create secret tls helloworld-go-dm --cert=path/to/cert/file --key=path/to/key/file
 ```
 
 Run the following command to find the domain URL for your service:
 ```bash
-kubectl get domainmapping helloworld-go
+kubectl get domainmapping
 ```
 
 Example:
 ```bash
 NAME                                                URL                                                            
-helloworld-go-2.default.<DOMAIN>   https://helloworld-go-2.default.<DOMAIN>       
+helloworld-go-dm.default.<DOMAIN>   https://helloworld-go-dm.default.<DOMAIN>       
 ```
 
 This should also be HTTPS if we configured the domain mapping with TLS.
@@ -92,7 +92,7 @@ Create DNS entries for the above two FQDNs and drop the URL in the browser of yo
 
 On helloworld-go (Auto TLS), you should see "X-Forwarded-Proto":["https"]. This is the correct behavior.
 
-On helloworld-go-2 (DomainMapping), you should see "X-Forwarded-Proto":["http"]. This is a bug and should be "https" instead.
+On helloworld-go-dm (DomainMapping), you should see "X-Forwarded-Proto":["http"]. This is incorrect and should be "https" instead.
 
 ## Removing
 
@@ -100,6 +100,6 @@ To remove the sample app from your cluster, delete the service record and corres
 
 #### `kubectl`
 ```bash
-kubectl delete -f service.yaml
-kubectl delete -f domainmapping.yaml
+kubectl delete -f deploy/service.yaml
+kubectl delete -f deploy/domainmapping.yaml
 ```

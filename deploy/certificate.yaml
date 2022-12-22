@@ -4,8 +4,8 @@ metadata:
   name: hello-world-alt-cert
 spec:
   dnsNames:
-  - helloworld-go-2.default.<DOMAIN>
+  - helloworld-go-dm.default.<DOMAIN>
   issuerRef:
     kind: ClusterIssuer
     name: ca-issuer
-  secretName: helloworld-go-2
+  secretName: helloworld-go-dm

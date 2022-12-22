@@ -1,7 +1,7 @@
 apiVersion: serving.knative.dev/v1beta1
 kind: DomainMapping
 metadata:
-  name: helloworld-go-2.default.<DOMAIN>
+  name: helloworld-go-dm.default.<DOMAIN>
 spec:
   ref:
     apiVersion: serving.knative.dev/v1
@@ -9,11 +9,11 @@ spec:
     name: helloworld-go
     namespace: default
   tls:
-    secretName: helloworld-go-2
+    secretName: helloworld-go-dm
 ---
 apiVersion: networking.internal.knative.dev/v1alpha1
 kind: ClusterDomainClaim
 metadata:
-  name: helloworld-go-2.default.<DOMAIN>
+  name: helloworld-go-dm.default.<DOMAIN>
 spec:
   namespace: default
