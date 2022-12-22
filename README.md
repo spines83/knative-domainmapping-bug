@@ -94,6 +94,8 @@ On helloworld-go (Auto TLS), you should see "X-Forwarded-Proto":["https"]. This 
 
 On helloworld-go-dm (DomainMapping), you should see "X-Forwarded-Proto":["http"]. This is incorrect and should be "https" instead.
 
+These headers are also logged in the container if that's easier to follow.
+
 ## Removing
 
 To remove the sample app from your cluster, delete the service record and corresponding domain mapping:
